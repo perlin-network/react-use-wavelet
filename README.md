@@ -21,8 +21,20 @@ const [client, node, clientErr] = useWavelet('https://testnet.perlin.net');
 // To get a Wavelet Account
 const [account, accountErr] = useAccount(client, 'yourprivatekey');
 
-// To get a Wavelet Contract
-const [contract] = useContract(client, 'contract addr');
+// callback to console log results of contract 'log' function every time contract updates;
+const onUpdate = (contract) => {
+  const results = contract.test('logs', BigInt(0)).logs[0].split('\n');
+  console.log(results);
+};
+
+// callback to console log results of contract 'log' function after contract loads
+const onLoad = (contract) => {
+  const results = contract.test('logs', BigInt(0)).logs[0].split('\n');
+  console.log(results);
+};
+
+// To get a Wavelet Contract, and register callbacks
+const [contract] = useContract(client, 'contract addr', onUpdate, onLoad);
 }
 ```
 
