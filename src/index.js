@@ -146,7 +146,6 @@ export const useContract = (client, contractAddress, onUpdate, onLoad) => {
         console.log(newContract)
         await newContract.init();
 
-
         console.log(newContract);
         setContract(newContract);
         setError(undefined);
@@ -158,7 +157,7 @@ export const useContract = (client, contractAddress, onUpdate, onLoad) => {
     if (!client) {
       reset();
     } else {
-       init();
+      init();
     };
   }, [client, contractAddress]);
 

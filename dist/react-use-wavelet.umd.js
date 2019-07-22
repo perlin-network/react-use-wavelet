@@ -1,11 +1,10 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react'), require('wavelet-client')) :
   typeof define === 'function' && define.amd ? define(['exports', 'react', 'wavelet-client'], factory) :
-  (global = global || self, factory(global['react-use-wavelet'] = {}, global.react, global.wc));
-}(this, function (exports, React, wc) { 'use strict';
+  (global = global || self, factory(global['react-use-wavelet'] = {}, global.react, global.waveletClient));
+}(this, function (exports, React, waveletClient) { 'use strict';
 
   React = React && React.hasOwnProperty('default') ? React['default'] : React;
-  wc = wc && wc.hasOwnProperty('default') ? wc['default'] : wc;
 
   function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
@@ -130,8 +129,6 @@
     throw new TypeError("Invalid attempt to destructure non-iterable instance");
   }
 
-  var Contract = wc.Contract,
-      Wavelet = wc.Wavelet;
   /**
    * Connects to a Wavelet node
    *
@@ -168,7 +165,7 @@
               switch (_context.prev = _context.next) {
                 case 0:
                   _context.prev = 0;
-                  newClient = new Wavelet(host);
+                  newClient = new waveletClient.Wavelet(host);
                   _context.t0 = setNodeInfo;
                   _context.next = 5;
                   return newClient.getNodeInfo();
@@ -241,6 +238,16 @@
       accountSocketRef.current = accountSocket;
     }, [accountSocket]);
     React.useEffect(function () {
+      var reset = function reset() {
+        setAccount(undefined);
+
+        if (accountSocketRef.current) {
+          accountSocketRef.current.close(1000, 'closing account connection');
+        }
+
+        setAccountSocket(undefined);
+      };
+
       var connect =
       /*#__PURE__*/
       function () {
@@ -253,7 +260,7 @@
               switch (_context2.prev = _context2.next) {
                 case 0:
                   _context2.prev = 0;
-                  wallet = Wavelet.loadWalletFromPrivateKey(privateKey);
+                  wallet = waveletClient.Wavelet.loadWalletFromPrivateKey(privateKey);
                   walletAddress = Buffer.from(wallet.publicKey).toString('hex');
                   _context2.t0 = setAccount;
                   _context2.next = 6;
@@ -289,23 +296,17 @@
                   _context2.t3 = _context2.sent;
                   (0, _context2.t2)(_context2.t3);
                   setError(undefined);
-                  _context2.next = 22;
+                  _context2.next = 20;
                   break;
 
                 case 16:
                   _context2.prev = 16;
                   _context2.t4 = _context2["catch"](0);
-                  // Cannot throw due to react hook limitations
-                  setAccount(undefined);
+                  reset(); // Cannot throw due to react hook limitations
 
-                  if (accountSocketRef.current) {
-                    accountSocketRef.current.close(1000, 'closing account connection');
-                  }
-
-                  setAccountSocket(undefined);
                   setError(_context2.t4);
 
-                case 22:
+                case 20:
                 case "end":
                   return _context2.stop();
               }
@@ -318,8 +319,10 @@
         };
       }();
 
-      if (privateKey) {
+      if (privateKey && client) {
         connect();
+      } else {
+        reset();
       }
     }, [client, privateKey]);
     return [account, error];
@@ -340,6 +343,7 @@
 
     var _React$useState15 = React.useState(null),
         _React$useState16 = _slicedToArray(_React$useState15, 2),
+        consensusSocket = _React$useState16[0],
         setConsensusSocket = _React$useState16[1];
 
     var _React$useState17 = React.useState(undefined),
@@ -347,88 +351,145 @@
         error = _React$useState18[0],
         setError = _React$useState18[1];
 
+    var consensusSocketRef = React.useRef(consensusSocket);
     React.useEffect(function () {
-      var fn =
+      consensusSocketRef.current = consensusSocket;
+    }, [consensusSocket]);
+    React.useEffect(function () {
+      var reset = function reset() {
+        if (consensusSocketRef.current) {
+          consensusSocketRef.current.close(1000, 'closing consensusSocket');
+        }
+
+        setConsensusSocket(undefined);
+        setContract(undefined);
+      };
+
+      var init =
       /*#__PURE__*/
       function () {
         var _ref3 = _asyncToGenerator(
         /*#__PURE__*/
-        regeneratorRuntime.mark(function _callee4() {
+        regeneratorRuntime.mark(function _callee3() {
           var newContract;
-          return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          return regeneratorRuntime.wrap(function _callee3$(_context3) {
             while (1) {
-              switch (_context4.prev = _context4.next) {
+              switch (_context3.prev = _context3.next) {
                 case 0:
-                  if (client) {
-                    _context4.next = 2;
-                    break;
-                  }
+                  _context3.prev = 0;
+                  newContract = new waveletClient.Contract(client, contractAddress); // Initialize
 
-                  return _context4.abrupt("return", null);
-
-                case 2:
-                  newContract = new Contract(client, contractAddress); // Initialize
-
-                  _context4.next = 5;
+                  console.log(newContract);
+                  _context3.next = 5;
                   return newContract.init();
 
                 case 5:
-                  _context4.t0 = setConsensusSocket;
-                  _context4.next = 8;
+                  console.log(newContract);
+                  setContract(newContract);
+                  setError(undefined);
+                  _context3.next = 14;
+                  break;
+
+                case 10:
+                  _context3.prev = 10;
+                  _context3.t0 = _context3["catch"](0);
+                  reset();
+                  setError(_context3.t0);
+
+                case 14:
+
+
+                case 15:
+                case "end":
+                  return _context3.stop();
+              }
+            }
+          }, _callee3, null, [[0, 10]]);
+        }));
+
+        return function init() {
+          return _ref3.apply(this, arguments);
+        };
+      }();
+
+      if (!client) {
+        reset();
+      } else {
+        init();
+      }
+    }, [client, contractAddress]);
+    React.useEffect(function () {
+      onLoad && onLoad(contract);
+    }, [contract, onLoad]);
+    React.useEffect(function () {
+      var listen =
+      /*#__PURE__*/
+      function () {
+        var _ref4 = _asyncToGenerator(
+        /*#__PURE__*/
+        regeneratorRuntime.mark(function _callee5() {
+          return regeneratorRuntime.wrap(function _callee5$(_context5) {
+            while (1) {
+              switch (_context5.prev = _context5.next) {
+                case 0:
+                  if (!(!client || !contract || !onUpdate)) {
+                    _context5.next = 2;
+                    break;
+                  }
+
+                  return _context5.abrupt("return");
+
+                case 2:
+                  _context5.t0 = setConsensusSocket;
+                  _context5.next = 5;
                   return client.pollConsensus({
                     onRoundEnded: function onRoundEnded(_) {
-                      if (newContract === undefined) {
+                      if (contract === undefined) {
                         return;
                       }
 
                       _asyncToGenerator(
                       /*#__PURE__*/
-                      regeneratorRuntime.mark(function _callee3() {
-                        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                      regeneratorRuntime.mark(function _callee4() {
+                        return regeneratorRuntime.wrap(function _callee4$(_context4) {
                           while (1) {
-                            switch (_context3.prev = _context3.next) {
+                            switch (_context4.prev = _context4.next) {
                               case 0:
-                                _context3.next = 2;
-                                return newContract.fetchAndPopulateMemoryPages();
+                                _context4.next = 2;
+                                return contract.fetchAndPopulateMemoryPages();
 
                               case 2:
-                                onUpdate(newContract);
+                                onUpdate(contract);
 
                               case 3:
                               case "end":
-                                return _context3.stop();
+                                return _context4.stop();
                             }
                           }
-                        }, _callee3);
+                        }, _callee4);
                       }))();
                     }
                   });
 
-                case 8:
-                  _context4.t1 = _context4.sent;
-                  (0, _context4.t0)(_context4.t1);
-                  onLoad(newContract);
-                  setContract(newContract);
-                  setError(undefined);
-                  setConsensusSocket(undefined);
-                  return _context4.abrupt("return", newContract);
+                case 5:
+                  _context5.t1 = _context5.sent;
+                  (0, _context5.t0)(_context5.t1);
 
-                case 15:
+                case 7:
                 case "end":
-                  return _context4.stop();
+                  return _context5.stop();
               }
             }
-          }, _callee4);
+          }, _callee5);
         }));
 
-        return function fn() {
-          return _ref3.apply(this, arguments);
+        return function listen() {
+          return _ref4.apply(this, arguments);
         };
       }();
 
-      fn()["catch"](setError);
-    }, [client, contractAddress]); //, onLoad, onUpdate]);
-
+      listen();
+    }, [client, contract, onUpdate]);
     return [contract, error];
   };
 

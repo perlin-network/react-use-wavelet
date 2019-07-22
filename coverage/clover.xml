@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1563761754962" clover="3.2.0">
-  <project timestamp="1563761754962" name="All files">
+<coverage generated="1563763113157" clover="3.2.0">
+  <project timestamp="1563763113157" name="All files">
     <metrics statements="89" coveredstatements="72" conditionals="23" coveredconditionals="13" methods="20" coveredmethods="17" elements="132" coveredelements="102" complexity="0" loc="89" ncloc="89" packages="1" files="1" classes="1"/>
     <file name="index.js" path="/home/ryan/Programming/perlin/use-wavelet/src/index.js">
       <metrics statements="89" coveredstatements="72" conditionals="23" coveredconditionals="13" methods="20" coveredmethods="17"/>
@@ -72,27 +72,27 @@
       <line num="144" count="143" type="stmt"/>
       <line num="146" count="143" type="stmt"/>
       <line num="147" count="143" type="stmt"/>
+      <line num="149" count="95" type="stmt"/>
       <line num="150" count="95" type="stmt"/>
       <line num="151" count="95" type="stmt"/>
-      <line num="152" count="95" type="stmt"/>
+      <line num="153" count="43" type="stmt"/>
       <line num="154" count="43" type="stmt"/>
-      <line num="155" count="43" type="stmt"/>
-      <line num="158" count="143" type="cond" truecount="1" falsecount="1"/>
-      <line num="159" count="0" type="stmt"/>
-      <line num="161" count="143" type="stmt"/>
-      <line num="165" count="279" type="stmt"/>
-      <line num="166" count="98" type="cond" truecount="1" falsecount="1"/>
-      <line num="169" count="279" type="stmt"/>
-      <line num="170" count="143" type="stmt"/>
-      <line num="171" count="143" type="cond" truecount="5" falsecount="0"/>
-      <line num="172" count="20" type="stmt"/>
-      <line num="176" count="0" type="cond" truecount="0" falsecount="2"/>
-      <line num="177" count="0" type="stmt"/>
+      <line num="157" count="143" type="cond" truecount="1" falsecount="1"/>
+      <line num="158" count="0" type="stmt"/>
+      <line num="160" count="143" type="stmt"/>
+      <line num="164" count="279" type="stmt"/>
+      <line num="165" count="98" type="cond" truecount="1" falsecount="1"/>
+      <line num="168" count="279" type="stmt"/>
+      <line num="169" count="143" type="stmt"/>
+      <line num="170" count="143" type="cond" truecount="5" falsecount="0"/>
+      <line num="171" count="20" type="stmt"/>
+      <line num="175" count="0" type="cond" truecount="0" falsecount="2"/>
+      <line num="176" count="0" type="stmt"/>
+      <line num="179" count="0" type="stmt"/>
       <line num="180" count="0" type="stmt"/>
       <line num="181" count="0" type="stmt"/>
-      <line num="182" count="0" type="stmt"/>
-      <line num="188" count="143" type="stmt"/>
-      <line num="191" count="279" type="stmt"/>
+      <line num="187" count="143" type="stmt"/>
+      <line num="190" count="279" type="stmt"/>
     </file>
   </project>
 </coverage>

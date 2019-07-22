@@ -8612,12 +8612,9 @@ react-scripts@3.0.1:
   optionalDependencies:
     fsevents "2.0.6"
 
-react-use-wavelet@../..:
-  version "0.1.0"
-
-"react-use-wavelet@git+ssh://git@gitlab.com/ryanswrt/react-use-wavelet.git":
-  version "0.1.6"
-  resolved "git+ssh://git@gitlab.com/ryanswrt/react-use-wavelet.git#2db2fb72a2499310ac869dbb9fd451f2610a0423"
+"react-use-wavelet@git+ssh://git@github.com:ryanswart/react-use-wavelet.git":
+  version "0.1.1"
+  resolved "git+ssh://git@github.com:ryanswart/react-use-wavelet.git#61791af56df3cf92bd64981d3f56993100cd14d4"
 
 react@^16.8.6:
   version "16.8.6"

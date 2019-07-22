@@ -6,7 +6,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
-    "react-use-wavelet": "../..",
+    "react-use-wavelet": "git+ssh://git@github.com:ryanswart/react-use-wavelet.git",
     "wavelet-client": "^1.0.10"
   },
   "scripts": {
