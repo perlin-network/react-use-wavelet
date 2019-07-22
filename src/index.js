@@ -1,7 +1,7 @@
 import React from 'react';
-import wc from 'wavelet-client';
+import { Contract, Wavelet } from 'wavelet-client';
 
-const { Contract, Wavelet } = wc;
+// const { Contract, Wavelet } = wc;
 
 /**
  * Connects to a Wavelet node
@@ -60,6 +60,14 @@ export const useAccount = (client, privateKey) => {
   }, [accountSocket]);
 
   React.useEffect(() => {
+    const reset = () => {
+      setAccount(undefined);
+      if (accountSocketRef.current) {
+        accountSocketRef.current.close(1000, 'closing account connection');
+      }
+      setAccountSocket(undefined);
+    };
+
     const connect = async () => {
       try {
         const wallet = Wavelet.loadWalletFromPrivateKey(privateKey);
@@ -89,18 +97,16 @@ export const useAccount = (client, privateKey) => {
         );
         setError(undefined);
       } catch (error) {
+        reset();
         // Cannot throw due to react hook limitations
-        setAccount(undefined);
-        if (accountSocketRef.current) {
-          accountSocketRef.current.close(1000, 'closing account connection');
-        }
-        setAccountSocket(undefined);
         setError(error);
       }
     };
 
-    if (privateKey) {
+    if (privateKey && client) {
       connect();
+    } else {
+      reset();
     }
   }, [client, privateKey]);
 
@@ -116,41 +122,71 @@ export const useAccount = (client, privateKey) => {
  */
 export const useContract = (client, contractAddress, onUpdate, onLoad) => {
   const [contract, setContract] = React.useState(null);
-  const [, setConsensusSocket] = React.useState(null);
+  const [consensusSocket, setConsensusSocket] = React.useState(null);
   const [error, setError] = React.useState(undefined);
 
+  const consensusSocketRef = React.useRef(consensusSocket);
   React.useEffect(() => {
-    const fn = async () => {
-      if (!client) return null;
-      const newContract = new Contract(client, contractAddress);
+    consensusSocketRef.current = consensusSocket;
+  }, [consensusSocket]);
 
-      // Initialize
-      await newContract.init();
+  React.useEffect(() => {
+    const reset = () => {
+      if (consensusSocketRef.current) {
+        consensusSocketRef.current.close(1000, 'closing consensusSocket');
+      }
+      setConsensusSocket(undefined);
+      setContract(undefined);
+    };
 
-      // Every single time consensus happens on Wavelet, query for the latest memory and call update
+    const init = async () => {
+      try {
+        const newContract = new Contract(client, contractAddress);
+        // Initialize
+        console.log(newContract)
+        await newContract.init();
+
+
+        console.log(newContract);
+        setContract(newContract);
+        setError(undefined);
+      } catch (e) {
+        reset();
+        setError(e);
+      };
+    };
+    if (!client) {
+      reset();
+    } else {
+       init();
+    };
+  }, [client, contractAddress]);
+
+  React.useEffect(() => {
+    onLoad && onLoad(contract);
+  }, [contract, onLoad]);
+
+  React.useEffect(() => {
+    const listen = async () => {
+      if (!client || !contract || !onUpdate) return;
       setConsensusSocket(
+        // Every single time consensus happens on Wavelet, query for the latest memory and call update
         await client.pollConsensus({
           onRoundEnded: _ => {
-            if (newContract === undefined) {
+            if (contract === undefined) {
               return;
             }
 
             (async () => {
-              await newContract.fetchAndPopulateMemoryPages();
-              onUpdate(newContract);
+              await contract.fetchAndPopulateMemoryPages();
+              onUpdate(contract);
             })();
           }
         })
       );
-
-      onLoad(newContract);
-      setContract(newContract);
-      setError(undefined);
-      setConsensusSocket(undefined);
-      return newContract;
     };
-    fn().catch(setError);
-  }, [client, contractAddress]); //, onLoad, onUpdate]);
+    listen();
+  }, [client, contract, onUpdate]);
 
   return [contract, error];
 };

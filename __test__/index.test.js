@@ -1,6 +1,14 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useWavelet, useAccount, useContract } from '../src';
 
+import wc from 'wavelet-client';
+
+jest.mock('wavelet-client');
+// import { Contract } from 'wavelet-client';
+wc.Wavelet = jest.requireActual('wavelet-client').Wavelet;
+
+const mockInit = jest.fn(() => new Promise((resolve) => resolve()));
+
 describe('react-use-wavelet', () => {
   test('export 3 hooks', () => {
     expect(typeof useWavelet).toBe('function');
@@ -19,7 +27,7 @@ describe('react-use-wavelet', () => {
       ).toBeTruthy();
     });
 
-    test('throw when invalid host is passed', async () => {
+    test('pass when valid host is passed', async () => {
       const { result, waitForNextUpdate } = renderHook(() => useWavelet('https://testnet.perlin.net'));
 
       await waitForNextUpdate();
@@ -32,10 +40,7 @@ describe('react-use-wavelet', () => {
 
   describe('useAccount', () => {
     test('throw when invalid key is passed', async () => {
-      const { result, waitForNextUpdate } = renderHook(() => useAccount({}, 'break'));
-
-      //await waitForNextUpdate();
-
+      const { result } = renderHook(() => useAccount({}, 'invalid'));
       expect(
         result.current[1]
       ).toBeTruthy();
@@ -44,6 +49,7 @@ describe('react-use-wavelet', () => {
 
   describe('useContract', () => {
     test('throw when invalid address is passed', async () => {
+      wc.Contract = jest.requireActual('wavelet-client').Contract;
       const { result, waitForNextUpdate } = renderHook(() => useContract({}, 'break'));
 
       await waitForNextUpdate();
@@ -51,6 +57,22 @@ describe('react-use-wavelet', () => {
       expect(
         result.current[1]
       ).toBeTruthy();
+    });
+
+    test('call init contract when an address is provided', () => {
+      //jest.mock('wavelet-client');
+
+      wc.Contract = jest.fn().mockImplementation(() => {
+        return {
+          init: mockInit
+        };
+      });
+
+      const { waitForNextUpdate } = renderHook(() => useContract({ }, 'break', () => {}));
+
+      expect(
+        mockInit
+      ).toHaveBeenCalled();
     });
   });
 });
