@@ -379,12 +379,14 @@
                   _context3.prev = 0;
                   newContract = new waveletClient.Contract(client, contractAddress); // Initialize
 
-                  console.log(newContract);
-                  _context3.next = 5;
+                  _context3.next = 4;
                   return newContract.init();
 
-                case 5:
-                  console.log(newContract);
+                case 4:
+                  _context3.next = 6;
+                  return newContract.fetchAndPopulateMemoryPages();
+
+                case 6:
                   setContract(newContract);
                   setError(undefined);
                   _context3.next = 14;

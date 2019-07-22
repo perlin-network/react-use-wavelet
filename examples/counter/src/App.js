@@ -42,10 +42,7 @@ function Contract({ client}) {
         </label>
       </div>
       <div>
-        Balance: {contract ? contract.balance : "disconnected"}
-      </div>
-      <div>
-        PubKey: {contract && contract.public_key}
+        ID: {contract ? contract.contract_id: "not loaded"}
       </div>
     </div>
   );

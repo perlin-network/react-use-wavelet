@@ -143,10 +143,9 @@ export const useContract = (client, contractAddress, onUpdate, onLoad) => {
       try {
         const newContract = new Contract(client, contractAddress);
         // Initialize
-        console.log(newContract)
         await newContract.init();
+        await newContract.fetchAndPopulateMemoryPages();
 
-        console.log(newContract);
         setContract(newContract);
         setError(undefined);
       } catch (e) {
@@ -154,6 +153,7 @@ export const useContract = (client, contractAddress, onUpdate, onLoad) => {
         setError(e);
       };
     };
+
     if (!client) {
       reset();
     } else {

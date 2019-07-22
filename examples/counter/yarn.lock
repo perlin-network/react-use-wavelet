@@ -8614,7 +8614,7 @@ react-scripts@3.0.1:
 
 "react-use-wavelet@git+ssh://git@github.com:ryanswart/react-use-wavelet.git":
   version "0.1.1"
-  resolved "git+ssh://git@github.com:ryanswart/react-use-wavelet.git#61791af56df3cf92bd64981d3f56993100cd14d4"
+  resolved "git+ssh://git@github.com:ryanswart/react-use-wavelet.git#85b062e61f266d50e0def3282cae05269fee116b"
 
 react@^16.8.6:
   version "16.8.6"

@@ -149,16 +149,16 @@ const useContract = (client, contractAddress, onUpdate, onLoad) => {
       try {
         const newContract = new waveletClient.Contract(client, contractAddress);
         // Initialize
-        console.log(newContract);
         await newContract.init();
+        await newContract.fetchAndPopulateMemoryPages();
 
-        console.log(newContract);
         setContract(newContract);
         setError(undefined);
       } catch (e) {
         reset();
         setError(e);
       }    };
+
     if (!client) {
       reset();
     } else {
