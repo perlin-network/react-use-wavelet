@@ -31,7 +31,6 @@ function Account({client}) {
 function Contract({ client}) {
   const [addr, setAddr] = useState("");
   const [contract, error] = useContract(client, addr);
-  console.log(contract, error)
   const onKeyChange = (e) => setAddr(e.target.value);
   return (
     <div className="box">

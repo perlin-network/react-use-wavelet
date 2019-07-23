@@ -1,8 +1,6 @@
 import React from 'react';
 import { Contract, Wavelet } from 'wavelet-client';
 
-// const { Contract, Wavelet } = wc;
-
 /**
  * Connects to a Wavelet node
  *
@@ -114,10 +112,19 @@ export const useAccount = (client, privateKey) => {
 };
 
 /**
+ * This callback type is called `requestCallback` and is displayed as a global symbol.
+ *
+ * @callback contractCallback
+ * @param {Contract} contract Contract that can be interacted wit
+ */
+
+/**
  * Fetches and instantiates a Wavelet contract for interaction
  *
  * @param {WaveletClient} client client used for interacting with contract
  * @param {string} contractAddress 64 char hex encoded contract address
+ * @param {contractCallback} onUpdate 64 char hex encoded contract address
+ * @param {contractCallback} onLoad 64 char hex encoded contract address
  * @returns {[ Contract, Error ]} A reactive Contract, and any errors returned
  */
 export const useContract = (client, contractAddress, onUpdate, onLoad) => {
