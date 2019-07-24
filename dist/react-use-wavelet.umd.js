@@ -408,9 +408,6 @@
                   setError(_context3.t0);
 
                 case 14:
-
-
-                case 15:
                 case "end":
                   return _context3.stop();
               }
@@ -431,7 +428,8 @@
     }, [client, contractAddress]);
     React.useEffect(function () {
       onLoad && contract && onLoad(contract);
-    }, [contract, onLoad]);
+    }, [contract]); // onLoad]);
+
     React.useEffect(function () {
       var listen =
       /*#__PURE__*/
@@ -451,8 +449,9 @@
                   return _context5.abrupt("return");
 
                 case 2:
+                  _context5.prev = 2;
                   _context5.t0 = setConsensusSocket;
-                  _context5.next = 5;
+                  _context5.next = 6;
                   return client.pollConsensus({
                     onRoundEnded: function onRoundEnded(_) {
                       if (contract === undefined) {
@@ -482,16 +481,23 @@
                     }
                   });
 
-                case 5:
+                case 6:
                   _context5.t1 = _context5.sent;
                   (0, _context5.t0)(_context5.t1);
+                  _context5.next = 13;
+                  break;
 
-                case 7:
+                case 10:
+                  _context5.prev = 10;
+                  _context5.t2 = _context5["catch"](2);
+                  setError(_context5.t2);
+
+                case 13:
                 case "end":
                   return _context5.stop();
               }
             }
-          }, _callee5);
+          }, _callee5, null, [[2, 10]]);
         }));
 
         return function listen() {
@@ -500,7 +506,8 @@
       }();
 
       listen();
-    }, [client, contract, onUpdate]);
+    }, [client, contract]); // , onUpdate]);
+
     return [contract, error];
   };
 

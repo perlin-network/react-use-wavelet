@@ -19,7 +19,7 @@
   },
   "peerDependencies": {
     "react": "^16.8.0",
-    "wavelet-client": "^1.0.10"
+    "wavelet-client": "^1.1.0"
   },
   "files": [
     "dist"

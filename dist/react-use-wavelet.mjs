@@ -158,39 +158,45 @@ const useContract = (client, contractAddress, onUpdate, onLoad) => {
       } catch (e) {
         reset();
         setError(e);
-      }    };
+      }
+    };
 
     if (!client) {
       reset();
     } else {
       init();
-    }  }, [client, contractAddress]);
+    }
+  }, [client, contractAddress]);
 
   React.useEffect(() => {
     onLoad && contract && onLoad(contract);
-  }, [contract, onLoad]);
+  }, [contract]); // onLoad]);
 
   React.useEffect(() => {
     const listen = async () => {
       if (!client || !contract || !onUpdate) return;
-      setConsensusSocket(
-        // Every single time consensus happens on Wavelet, query for the latest memory and call update
-        await client.pollConsensus({
-          onRoundEnded: _ => {
-            if (contract === undefined) {
-              return;
-            }
+      try {
+        setConsensusSocket(
+          // Every single time consensus happens on Wavelet, query for the latest memory and call update
+          await client.pollConsensus({
+            onRoundEnded: _ => {
+              if (contract === undefined) {
+                return;
+              }
 
-            (async () => {
-              await contract.fetchAndPopulateMemoryPages();
-              onUpdate(contract);
-            })();
-          }
-        })
-      );
+              (async () => {
+                await contract.fetchAndPopulateMemoryPages();
+                onUpdate(contract);
+              })();
+            }
+          })
+        );
+      } catch (e) {
+        setError(e);
+      }
     };
     listen();
-  }, [client, contract, onUpdate]);
+  }, [client, contract]); // , onUpdate]);
 
   return [contract, error];
 };
