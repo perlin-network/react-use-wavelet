@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">92.13% </span>
+        <span class="strong">91.21% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>82/89</span>
+        <span class='fraction'>83/91</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">73.91% </span>
+        <span class="strong">75% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>17/23</span>
+        <span class='fraction'>18/24</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">95% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>19/20</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">92.05% </span>
+        <span class="strong">91.11% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>81/88</span>
+        <span class='fraction'>82/90</span>
       </div>
     </div>
     <p class="quiet">
@@ -237,9 +237,18 @@
 <a name='L189'></a><a href='#L189'>189</a>
 <a name='L190'></a><a href='#L190'>190</a>
 <a name='L191'></a><a href='#L191'>191</a>
-<a name='L192'></a><a href='#L192'>192</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -350,6 +359,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">95x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -408,6 +426,7 @@
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -423,6 +442,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -430,8 +452,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
 import { Contract, Wavelet } from 'wavelet-client';
-&nbsp;
-// const { Contract, Wavelet } = wc;
 &nbsp;
 /**
  * Connects to a Wavelet node
@@ -544,10 +564,19 @@ export const useAccount = (client, privateKey) =&gt; {
 };
 &nbsp;
 /**
+ * This callback type is called `requestCallback` and is displayed as a global symbol.
+ *
+ * @callback contractCallback
+ * @param {Contract} contract Contract that can be interacted wit
+ */
+&nbsp;
+/**
  * Fetches and instantiates a Wavelet contract for interaction
  *
  * @param {WaveletClient} client client used for interacting with contract
  * @param {string} contractAddress 64 char hex encoded contract address
+ * @param {contractCallback} onUpdate 64 char hex encoded contract address
+ * @param {contractCallback} onLoad 64 char hex encoded contract address
  * @returns {[ Contract, Error ]} A reactive Contract, and any errors returned
  */
 export const useContract = (client, contractAddress, onUpdate, onLoad) =&gt; {
@@ -581,38 +610,42 @@ export const useContract = (client, contractAddress, onUpdate, onLoad) =&gt; {
       } catch (e) {
         reset();
         setError(e);
-      };
+      }
     };
 &nbsp;
     if (!client) {
       reset();
     } else {
       init();
-    };
+    }
   }, [client, contractAddress]);
 &nbsp;
   React.useEffect(() =&gt; {
-    onLoad &amp;&amp; onLoad(contract);
+    onLoad &amp;&amp; contract &amp;&amp; onLoad(contract);
   }, [contract, onLoad]);
 &nbsp;
   React.useEffect(() =&gt; {
     const listen = async () =&gt; {
       if (!client || !contract || !onUpdate) return;
-      setConsensusSocket(
-        // Every single time consensus happens on Wavelet, query for the latest memory and call update
-        await client.pollConsensus({
-          onRoundEnded: _ =&gt; {
-            <span class="missing-if-branch" title="if path not taken" >I</span>if (contract === undefined) {
-<span class="cstat-no" title="statement not covered" >              return;</span>
-            }
+      try {
+        setConsensusSocket(
+          // Every single time consensus happens on Wavelet, query for the latest memory and call update
+          await client.pollConsensus({
+            onRoundEnded: _ =&gt; {
+              <span class="missing-if-branch" title="if path not taken" >I</span>if (contract === undefined) {
+<span class="cstat-no" title="statement not covered" >                return;</span>
+              }
 &nbsp;
-            (async () =&gt; {
-              await contract.fetchAndPopulateMemoryPages();
-              onUpdate(contract);
-            })();
-          }
-        })
-      );
+              (async () =&gt; {
+                await contract.fetchAndPopulateMemoryPages();
+                onUpdate(contract);
+              })();
+            }
+          })
+        );
+      } catch (e) {
+<span class="cstat-no" title="statement not covered" >        setError(e);</span>
+      }
     };
     listen();
   }, [client, contract, onUpdate]);
@@ -625,7 +658,7 @@ export const useContract = (client, contractAddress, onUpdate, onLoad) =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Jul 22 2019 12:00:22 GMT+0800 (Singapore Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Jul 24 2019 17:33:41 GMT+0800 (Singapore Standard Time)
 </div>
 </div>
 <script src="prettify.js"></script>

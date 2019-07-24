@@ -170,7 +170,7 @@ export const useContract = (client, contractAddress, onUpdate, onLoad) => {
 
   React.useEffect(() => {
     onLoad && contract && onLoad(contract);
-  }, [contract]); // onLoad]);
+  }, [contract, onLoad]);
 
   React.useEffect(() => {
     const listen = async () => {
@@ -196,7 +196,7 @@ export const useContract = (client, contractAddress, onUpdate, onLoad) => {
       }
     };
     listen();
-  }, [client, contract]); // , onUpdate]);
+  }, [client, contract, onUpdate]);
 
   return [contract, error];
 };

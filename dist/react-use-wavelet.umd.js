@@ -428,8 +428,7 @@
     }, [client, contractAddress]);
     React.useEffect(function () {
       onLoad && contract && onLoad(contract);
-    }, [contract]); // onLoad]);
-
+    }, [contract, onLoad]);
     React.useEffect(function () {
       var listen =
       /*#__PURE__*/
@@ -506,8 +505,7 @@
       }();
 
       listen();
-    }, [client, contract]); // , onUpdate]);
-
+    }, [client, contract, onUpdate]);
     return [contract, error];
   };
 
