@@ -20,13 +20,13 @@ const Yo = () => {
   const onUpdate = useCallback((contract) => {
     const wallet = Wavelet.loadWalletFromPrivateKey('87a6813c3b4cf534b6ae82db9b1409fa7dbd5c13dba5858970b56084c4a930eb400056ee68a7cc2695222df05ea76875bc27ec6e61e8e62317c336157019c405');
     setChatLogs(contract.test(wallet, 'get_messages', BigInt(0)).logs);
-  });
+  }, []);
 
   // callback to console log results of contract 'get_messages' function after contract loads
   const onLoad = useCallback((contract) => {
     const wallet = Wavelet.loadWalletFromPrivateKey('87a6813c3b4cf534b6ae82db9b1409fa7dbd5c13dba5858970b56084c4a930eb400056ee68a7cc2695222df05ea76875bc27ec6e61e8e62317c336157019c405');
     setChatLogs(contract.test(wallet, 'get_messages', BigInt(0)).logs);
-  });
+  }, []);
 
   // To get a Wavelet Contract, and register callbacks
   const [contract] = useContract(client, '8b951261c83b5213330ac97c683cc3f4415ba02d621760f897ef6991652219ba', onUpdate, onLoad);
