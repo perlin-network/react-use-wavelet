@@ -169,7 +169,7 @@ export const useContract = (client, contractAddress, onUpdate, onLoad) => {
   }, [client, contractAddress]);
 
   React.useEffect(() => {
-    onLoad && onLoad(contract);
+    onLoad && contract && onLoad(contract);
   }, [contract, onLoad]);
 
   React.useEffect(() => {
