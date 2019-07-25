@@ -6,7 +6,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
-    "react-use-wavelet": "^0.2.0",
+    "react-use-wavelet": "^0.2.1",
     "wavelet-client": "^1.1.0"
   },
   "scripts": {
