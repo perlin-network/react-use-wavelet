@@ -88,7 +88,6 @@ function App() {
   const [clients, setClients] = useState([1]);
   return (
     <div className="App">
-      <MyAccount/>
       <div>
         <button onClick={() => setClients(clients.concat(clients.length + 1))}>Add Client</button>
         <button onClick={() => setClients(clients.slice(1))}>Remove Client</button>
@@ -101,48 +100,3 @@ function App() {
 }
 
 export default App;
-
-
-const MyAccount = () => {
-  // First get a working client
-  const [client, node, clientErr] = useWavelet('https://testnet.perlin.net');
-
-  // To get a Wavelet Account
-  const [account, accountErr] = useAccount(client, 'd1bb4967e56a51127cfadd08b13ed801ab58a66e8b7244ca5482e2b640c4de42bcd756c4823a651640ed0e2045195d43ff851784aaa262321f921bd9bcac8be8');
-  const [chatLogs, setChatLogs] = useState([]);
-
-  // callback to console log results of contract 'get_messages' function every time wavelet reaches consensus;
-  const onUpdate = (contract) => {
-    setChatLogs(contract.test('get_messages', BigInt(0)).logs);
-  };
-
-  // callback to console log results of contract 'get_messages' function after contract loads
-  const onLoad = (contract) => {
-    setChatLogs(contract.test('get_messages', BigInt(0)).logs);
-  };
-
-  // To get a Wavelet Contract, and register callbacks
-  const [contract] = useContract(client, '9f549686e464b2addfdcd5061deeeb7c622ea430c5f93ddaf5cf8a8f114f8b65', onUpdate, onLoad);
-
-  // To call a contract function
-  const sendMessage = (message) => {
-    const wallet = Wavelet.loadWalletFromPrivateKey('d1bb4967e56a51127cfadd08b13ed801ab58a66e8b7244ca5482e2b640c4de42bcd756c4823a651640ed0e2045195d43ff851784aaa262321f921bd9bcac8be8');
-    contract.call(wallet, 'send_message', BigInt(0), BigInt(250000), {
-      type: 'string',
-      value: message
-    });
-  };
-
-  return (
-  <div>
-    Balance: {account ? account.balance : 'account not loaded'}
-    Public Key: {account ? account.pulic_key : 'account not loaded'}
-    <button onClick={() => sendMessage('Yo')} />
-    <textarea
-        rows={35}
-        readOnly
-        value={chatLogs.length === 1 ? chatLogs[0] : ''}
-    />
-  </div>
-  )
-}

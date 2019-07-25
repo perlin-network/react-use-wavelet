@@ -112,6 +112,7 @@ const useAccount = (client, privateKey) => {
     } else {
       reset();
     }
+    return reset;
   }, [client, privateKey]);
 
   return [account, error];
@@ -172,6 +173,7 @@ const useContract = (client, contractAddress, onUpdate, onLoad) => {
     } else {
       init();
     }
+    return reset;
   }, [client, contractAddress]);
 
   React.useEffect(() => {
@@ -202,6 +204,13 @@ const useContract = (client, contractAddress, onUpdate, onLoad) => {
       }
     };
     listen();
+    return () => {
+      if (consensusSocketRef.current) {
+        consensusSocketRef.current.close(1000, 'closing consensusSocket');
+      }
+      setConsensusSocket(undefined);
+      setContract(undefined);
+    };
   }, [client, contract, onUpdate]);
 
   return [contract, error];

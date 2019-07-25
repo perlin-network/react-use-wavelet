@@ -160,9 +160,8 @@ describe('react-use-wavelet', () => {
       const { waitForNextUpdate, unmount, rerender } = renderHook(
         ({ client }) =>
           useContract(client, 'not checked', jest.fn()),
-        {initialProps: { client: { pollConsensus } } }
+        { initialProps: { client: { pollConsensus } } }
       );
-      await waitForNextUpdate();
       await waitForNextUpdate();
       rerender({ client: false });
       await waitForNextUpdate();

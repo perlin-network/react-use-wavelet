@@ -1,12 +1,12 @@
 {
-  "name": "counter",
+  "name": "spawner",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
-    "react-use-wavelet": "git+ssh://git@github.com:ryanswart/react-use-wavelet.git",
+    "react-use-wavelet": "^0.2.0",
     "wavelet-client": "^1.0.10"
   },
   "scripts": {

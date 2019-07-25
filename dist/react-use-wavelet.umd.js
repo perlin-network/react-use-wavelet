@@ -324,6 +324,8 @@
       } else {
         reset();
       }
+
+      return reset;
     }, [client, privateKey]);
     return [account, error];
   };
@@ -425,6 +427,8 @@
       } else {
         init();
       }
+
+      return reset;
     }, [client, contractAddress]);
     React.useEffect(function () {
       onLoad && contract && onLoad(contract);
@@ -505,6 +509,14 @@
       }();
 
       listen();
+      return function () {
+        if (consensusSocketRef.current) {
+          consensusSocketRef.current.close(1000, 'closing consensusSocket');
+        }
+
+        setConsensusSocket(undefined);
+        setContract(undefined);
+      };
     }, [client, contract, onUpdate]);
     return [contract, error];
   };
