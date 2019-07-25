@@ -14,7 +14,6 @@ yarn add react-use-wavelet
 ## Usage
 
 ```jsx
-jsx
 import React, {useCallback, useState} from "react";
 import { useWavelet, useAccount, useContract } from 'react-use-wavelet';
 import { Wavelet } from 'wavelet-client';
