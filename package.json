@@ -8,6 +8,10 @@
   "browser": "dist/react-use-wavelet.umd.js",
   "author": "Ryan Swart",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/perlin-network/react-use-wavelet"
+  },
   "scripts": {
     "prepublishOnly": "npm run build",
     "lint": "eslint src",

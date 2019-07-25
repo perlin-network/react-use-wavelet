@@ -1,4 +1,6 @@
 # `react-use-wavelet`
+[![npmjs.com](https://img.shields.io/npm/v/react-use-wavelet.svg)](https://www.npmjs.com/package/react-use-wavelet)
+[![Discord Chat](https://img.shields.io/discord/458332417909063682.svg)](https://discord.gg/dMYfDPM)
 
 React hooks to easily integrate [Wavelet](https://wavelet.perlin.net) smart contracts into your React application. 
 
