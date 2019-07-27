@@ -203,7 +203,6 @@ const useContract = (client, contractAddress, onUpdate, onLoad) => {
         consensusSocketRef.current.close(1000, 'closing consensusSocket');
       }
       setConsensusSocket(undefined);
-      setContract(undefined);
     };
   }, [client, contract, onUpdate]);
 
