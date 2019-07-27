@@ -515,7 +515,6 @@
         }
 
         setConsensusSocket(undefined);
-        setContract(undefined);
       };
     }, [client, contract, onUpdate]);
     return [contract, error];

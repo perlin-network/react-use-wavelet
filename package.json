@@ -1,6 +1,6 @@
 {
   "name": "react-use-wavelet",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Easily use Perlin Wavelet smart contracts in your React app",
   "src": "src/index.js",
   "main": "dist/react-use-wavelet.js",
