@@ -152,7 +152,6 @@ export const useContract = (client, contractAddress, onUpdate, onLoad) => {
         const newContract = new Contract(client, contractAddress);
         // Initialize
         await newContract.init();
-        await newContract.fetchAndPopulateMemoryPages();
 
         setContract(newContract);
         setError(undefined);
