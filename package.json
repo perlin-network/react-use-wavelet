@@ -1,6 +1,6 @@
 {
   "name": "react-use-wavelet",
-  "version": "0.2.2",
+  "version": "2.0.0",
   "description": "Easily use Perlin Wavelet smart contracts in your React app",
   "src": "src/index.js",
   "main": "dist/react-use-wavelet.js",
@@ -68,7 +68,7 @@
     "rollup-plugin-commonjs": "^10.0.1",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "wavelet-client": "^1.0.10"
+    "wavelet-client": "^2.0.0"
   },
   "jest": {
     "setupFiles": [
