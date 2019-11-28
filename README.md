@@ -5,6 +5,10 @@
 
 React hooks to easily integrate [Wavelet](https://wavelet.perlin.net) smart contracts into your React application. 
 
+### **Wavelet (Himitsu)**
+Starting from v2, **react-use-wavelet** will support the new version of Wavelet (Himitsu).
+
+
 ## Setup
 
 ```shell
